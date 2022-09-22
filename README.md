@@ -4,6 +4,8 @@
 
 ### File list
 
+---
+
 #### httpd 설치 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/httpd.yaml)
 
 #### httpd 삭제 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/delete_httpd.yaml)
