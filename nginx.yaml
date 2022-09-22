@@ -1,0 +1,27 @@
+---
+- name: webtask
+  hosts: web
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: install repo
+      yum:
+        name: epel-release
+        state: latest
+    - name: nginx install
+      yum:
+        name: nginx
+        state: present
+    - name: nginx start
+      service:
+        name: nginx
+        state: started
+        enabled: true
+    - name: git clone
+      git:
+        repo: https://github.com/lijahong/test
+        dest: /usr/share/nginx/html/shop
+        version: main
+        update: no
+        clone: no
