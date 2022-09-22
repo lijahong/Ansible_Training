@@ -1,0 +1,68 @@
+---
+- name: nfs setup
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: nfs_directory
+      file:
+        path: /home/vagrant/shared
+        state: directory
+        mode: 0777
+
+    - name: configure /etc/exports
+      become: yes
+      lineinfile:
+        path: /etc/exports
+        line: /home/vagrant/shared 10.10.10.0/24(rw,sync)
+
+    - name: nfs service start
+      become: yes
+      service:
+        name: nfs
+        state: restarted
+
+    - name: create file
+      become: yes
+      file:
+        path: /home/vagrant/shared/test.txt
+        state: touch
+
+    - name: insert data
+      become: yes
+      lineinfile:
+        path: /home/vagrant/shared/test.txt
+        line: "{{ item }}"
+      with_items:
+        - "gildong"
+        - "chulsoo"
+        - "minsoo"
+
+    - name: replace it
+      become: yes
+      replace:
+        path: /home/vagrant/shared/test.txt
+        regexp: "{{item.From}}"
+        replace: "{{item.To}}"
+      with_items:
+        - {From: 'soo',To: 'chul'}
+        - {From: 'dong',To: 'min'}
+
+- name: nfs client
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: make client directory
+      file:
+        path: /home/vagrant/remote
+        state: directory
+
+    - name: mount directory
+      become: yes
+      mount:
+        path: /home/vagrant/remote
+        src: 10.10.10.10:/home/vagrant/shared
+        fstype: nfs
+        opts: nfsvers=3
+        state: mounted
