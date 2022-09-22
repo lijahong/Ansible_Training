@@ -1,0 +1,29 @@
+---
+- name: web configuration
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: git install
+      yum:
+        name: git
+        state: present
+    - name: httpd install
+      yum:
+        name: httpd
+        state: present
+    - name: httpd start && enable
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+- name: vim install
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: vim installation
+      yum:
+        name: vim
+        state: present
