@@ -1,0 +1,13 @@
+---
+- name: install net-tools
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: net-tools installation
+      yum:
+        name: net-tools
+        state: present
+    - name: print eth'2s ip address
+      shell: "sudo ifconfig eth2 | grep 211.183.3."
