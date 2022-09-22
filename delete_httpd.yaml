@@ -1,0 +1,11 @@
+---
+- name: web delete
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: httpd destroy
+      yum:
+        name: httpd
+        state: absent
