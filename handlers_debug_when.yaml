@@ -1,0 +1,48 @@
+---
+- name: httpd installation
+  hosts: koreaeast
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: httpd install
+      yum:
+          name: httpd
+          state: present
+      when: ansible_distribution == 'CentOS'
+
+    - name: httpd start
+      service:
+         name: httpd
+         state: started
+      when: ansible_distribution == 'CentOS'
+
+    - name: nginx installation
+      apt:
+        pkg: nginx
+        state: present
+        update_cache: yes
+      when: ansible_pkg_mgr == 'apt'
+
+    - name: get it
+      get_url:
+          url: http://192.168.1.97/test.html
+          dest: /var/www/html/index.html
+          mode: 644
+      when: ansible_distribution == 'CentOS'
+      notify:
+        - trigger1
+      register: resulth
+
+    - debug:
+        var: resulth
+
+  handlers:
+    - name: trigger1
+      service:
+        name: httpd
+        state: restarted
+      register: triggerre
+
+    - debug:
+        var: triggerre
