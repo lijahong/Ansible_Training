@@ -1,0 +1,82 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "server" do |cfg0|
+    cfg0.vm.box = "centos/7"
+    cfg0.vm.provider :libvirt do |resource|
+      resource.cpus = 2
+      resource.memory = 1024
+    end
+    cfg0.vm.host_name = "server"
+    cfg0.vm.network "public_network", :dev => "br0",  :type =>"bridge"
+    cfg0.vm.network "private_network", ip: "10.10.10.10"
+    cfg0.vm.network "forwarded_port", guest: 22, host: 20010, id: "ssh"
+    cfg0.vm.provision "shell", inline: "yum -y install epel-release && yum -y install ansible"
+    cfg0.vm.provision "file", source: "mykey.pem", destination: "/home/vagrant/.ssh/mykey.pem"
+    cfg0.vm.provision "shell", inline: "chmod 600 /home/vagrant/.ssh/mykey.pem"
+    cfg0.vm.provision "file", source: "ssh_config_mykey", destination: "/home/vagrant/ssh_config_mykey"
+    cfg0.vm.provision "shell", inline: "cat /home/vagrant/ssh_config_mykey >> /etc/ssh/ssh_config"
+    #cfg0.vm.provision "shell", inline: "echo '10.10.10.11' >> /etc/ansible/hosts"
+    #cfg0.vm.provision "shell", inline: "echo '10.10.10.12' >> /etc/ansible/hosts"
+    #cfg0.vm.provision "shell", inline: "echo '10.10.10.13' >> /etc/ansible/hosts"
+    cfg0.vm.provision "shell", inline: "echo '10.10.10.14' >> /etc/ansible/hosts"
+    cfg0.vm.provision "shell", inline: "echo '10.10.10.15' >> /etc/ansible/hosts"
+    #cfg0.vm.provision "shell", inline: "ssh-keyscan 10.10.10.11 >> /home/vagrant/.ssh/known_hosts"
+    #cfg0.vm.provision "shell", inline: "ssh-keyscan 10.10.10.12 >> /home/vagrant/.ssh/known_hosts"
+    #cfg0.vm.provision "shell", inline: "ssh-keyscan 10.10.10.13 >> /home/vagrant/.ssh/known_hosts"
+    cfg0.vm.provision "shell", inline: "ssh-keyscan 10.10.10.14 >> /home/vagrant/.ssh/known_hosts"
+    cfg0.vm.provision "shell", inline: "ssh-keyscan 10.10.10.15 >> /home/vagrant/.ssh/known_hosts"
+    cfg0.vm.provision "shell", inline: "chown vagrant.vagrant /home/vagrant/.ssh/known_hosts"
+  end
+
+  config.vm.define "node1" do |cfg1|
+    cfg1.vm.box = "centos/7"
+    cfg1.vm.host_name = "node1"
+    cfg1.vm.network "public_network", :dev => "br0",  :type =>"bridge"
+    cfg1.vm.network "private_network", ip: "10.10.10.11"
+    cfg1.vm.network "forwarded_port", guest: 22, host: 20011, id: "ssh"
+    #cfg1.vm.provision "file", source: "mykey.pem.pub", destination: "/home/vagrant/.ssh/mykey.pem.pub"
+    #cfg1.vm.provision "shell", inline: "cat /home/vagrant/.ssh/mykey.pem.pub >> /home/vagrant/.ssh/authorized_keys"
+  end
+
+  config.vm.define "node2" do |cfg2|
+    cfg2.vm.box = "centos/7"
+    cfg2.vm.host_name = "node2"
+    cfg2.vm.network "public_network", :dev => "br0",  :type =>"bridge"
+    cfg2.vm.network "private_network", ip: "10.10.10.12"
+    cfg2.vm.network "forwarded_port", guest: 22, host: 20012, id: "ssh"
+    #cfg2.vm.provision "file", source: "mykey.pem.pub", destination: "/home/vagrant/.ssh/mykey.pem.pub"
+    #cfg2.vm.provision "shell", inline: "cat /home/vagrant/.ssh/mykey.pem.pub >> /home/vagrant/.ssh/authorized_keys"
+  end
+
+  config.vm.define "node3" do |cfg3|
+    cfg3.vm.box = "centos/7"
+    cfg3.vm.host_name = "node3"
+    cfg3.vm.network "public_network", :dev => "br0",  :type =>"bridge"
+    cfg3.vm.network "private_network", ip: "10.10.10.13"
+    cfg3.vm.network "forwarded_port", guest: 22, host: 20013, id: "ssh"
+    #cfg3.vm.provision "file", source: "mykey.pem.pub", destination: "/home/vagrant/.ssh/mykey.pem.pub"
+    #cfg3.vm.provision "shell", inline: "cat /home/vagrant/.ssh/mykey.pem.pub >> /home/vagrant/.ssh/authorized_keys"
+  end
+
+  config.vm.define "node4" do |cfg|
+    cfg.vm.box = "generic/ubuntu1804"
+    cfg.vm.host_name = "ubuntu1"
+    cfg.vm.network "public_network", :dev => "br0", :type => "bridge"
+    cfg.vm.network "forwarded_port", guest: 22, host: 20014, id: "ssh"
+    cfg.vm.network "private_network", ip: "10.10.10.14"
+    cfg.vm.provision "file", source: "mykey.pem.pub", destination: "/home/vagrant/.ssh/mykey.pem.pub"
+    cfg.vm.provision "shell", inline: "cat /home/vagrant/.ssh/mykey.pem.pub >> /home/vagrant/.ssh/authorized_keys"
+  end
+
+  config.vm.define "node5" do |cfg|
+    cfg.vm.box = "generic/ubuntu1804"
+    cfg.vm.host_name = "ubuntu2"
+    cfg.vm.network "public_network", :dev => "br0", :type => "bridge"
+    cfg.vm.network "forwarded_port", guest: 22, host: 20014, id: "ssh"
+    cfg.vm.network "private_network", ip: "10.10.10.15"
+    cfg.vm.provision "file", source: "mykey.pem.pub", destination: "/home/vagrant/.ssh/mykey.pem.pub"
+    cfg.vm.provision "shell", inline: "cat /home/vagrant/.ssh/mykey.pem.pub >> /home/vagrant/.ssh/authorized_keys"
+  end
+end
