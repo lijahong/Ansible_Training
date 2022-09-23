@@ -4,12 +4,14 @@
 
 ### File list
 
-#### httpd 설치 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/httpd.yaml)
+- httpd 설치 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/httpd.yaml)
 
-#### httpd 삭제 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/delete_httpd.yaml)
+- httpd 삭제 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/delete_httpd.yaml)
 
-#### nginx 설치 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/nginx.yaml)
+- nginx 설치 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/nginx.yaml)
 
-#### net-tools 설치 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/nettool.yaml)
+- net-tools 설치 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/nettool.yaml)
 
-#### nfs 구성 & 다양한 모듈 사용 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/nfs_setup.yaml)
+- nfs 구성 & 다양한 모듈 사용 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/nfs_setup.yaml)
+
+- 조건 추가 & debug & handler [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/handlers_debug_when.yaml)
