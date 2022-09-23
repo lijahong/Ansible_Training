@@ -15,3 +15,5 @@
 - nfs 구성 & 다양한 모듈 사용 [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/nfs_setup.yaml)
 
 - 조건 추가 & debug & handler [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/handlers_debug_when.yaml)
+
+- Instance 배포 Vagrantfile [ 파일 확인 ](https://github.com/lijahong/Ansible_Training/blob/main/Vagrantfile.yaml)
